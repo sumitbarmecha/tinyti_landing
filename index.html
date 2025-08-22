@@ -4,6 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>TinyTi — Coming Soon</title>
+  <meta name="description" content="TinyTí crafts ultra-soft, sustainable kids’ clothing inspired by an elder sister’s care. Made with organic fabrics and natural dyes, our playful yet timeless designs wrap little ones in comfort, love, and conscious fashion..">
+
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -97,18 +99,23 @@
       padding:12px 18px;
       border-radius:10px;
       border: none;
-      font-weight:600;
+      font-weight:600 !important;
       cursor:pointer;
       background:var(--accent);
       color: var(--bg);
       min-width:120px;
+      font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
     }
     button[disabled] { opacity:0.6; cursor:default; }
-    .msgs { margin-top:14px; min-height:24px; }
+    .msgs { margin-top:14px; min-height:24px;display: flex
+;
+    justify-content: center;
+ }
     .msg {
       display:none;
       padding:10px 14px;
       border-radius:8px;
+      width: fit-content;
       font-size:14px;
     }
     .msg.success {
@@ -118,6 +125,7 @@
     }
     .msg.error {
       display:none;
+      width: fit-;
       background: rgba(255,255,255,0.06);
       color: #fff;
     }
