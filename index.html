@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>TinyTi — Coming Soon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #820405;
+      --accent: #d2af5d;
+      --muted: rgba(255,255,255,0.85);
+      --input-bg: rgba(255,255,255,0.06);
+      --glass: rgba(255,255,255,0.04);
+      --radius: 10px;
+      --max-width: 720px;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;}
+    body {
+      background: var(--bg);
+      color: var(--muted);
+      -webkit-font-smoothing:antialiased;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:0px 32px;
+    }
+    .card {
+      width:100%;
+      max-width:var(--max-width);
+      text-align:center;
+      padding:42px;
+      box-sizing:border-box;
+   
+      border-radius:18px;
+      backdrop-filter: blur(6px);
+    }
+    .logo {
+      width:260px;
+      height:260px;
+      margin:0 auto 22px;
+      border-radius:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: transparent;
+    }
+    .logo img {
+      max-width:100%;
+      height:auto;
+      display:block;
+    }
+    h1 {
+      margin:0;
+      font-family: 'Playfair Display', serif;
+      font-weight:700;
+      font-size:34px;
+      color: var(--accent);
+      letter-spacing:0.4px;
+    }
+    .teaser {
+      margin:14px 0 22px;
+      font-size:16px;
+      line-height:1.45;
+      color: rgba(255,255,255,0.95);
+      max-width:560px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+    /* Form */
+    .subscribe {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      margin-top:10px;
+    }
+    form#subscribe-form {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:center;
+      width:100%;
+    }
+    input[type="email"] {
+      flex:1 1 320px;
+      min-width:0;
+      padding:14px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: var(--input-bg);
+      color: white;
+      outline: none;
+      font-size:15px;
+    }
+    input[type="email"]::placeholder { color: rgba(255,255,255,0.6); }
+    button[type="submit"] {
+      padding:12px 18px;
+      border-radius:10px;
+      border: none;
+      font-weight:600;
+      cursor:pointer;
+      background:var(--accent);
+      color: var(--bg);
+      min-width:120px;
+    }
+    button[disabled] { opacity:0.6; cursor:default; }
+    .msgs { margin-top:14px; min-height:24px; }
+    .msg {
+      display:none;
+      padding:10px 14px;
+      border-radius:8px;
+      font-size:14px;
+    }
+    .msg.success {
+      display:none;
+      background: rgba(186,127,74,0.12);
+      color: var(--accent);
+    }
+    .msg.error {
+      display:none;
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+    }
+    /* responsive: stack on small screens */
+    @media (max-width:540px) {
+      .card{padding:28px}
+      .subscribe { flex-direction:column; gap:10px; }
+      form#subscribe-form { flex-direction:column; }
+      button[type="submit"]{ width:100%; }
+      input[type="email"]{ width:100%; }
+    }
+    /* small footer */
+    .footer { margin-top:22px; font-size:13px; color: rgba(255,255,255,0.6); }
+  </style>
+</head>
+<body>
+  <main class="card" role="main" aria-labelledby="coming-soon">
+    <div class="logo" aria-hidden="true">
+      <img src="./6.png" alt="TinyTi Logo">
+    </div>
+
+    <h1 id="coming-soon" aria-hidden="true">TinyTi — Coming Soon</h1>
+
+    <p class="teaser">
+      TinyTi makes the small things that matter feel special. We're building something tiny, bold, and delightfully unexpected — early access, limited drops, and insider perks for subscribers.
+    </p>
+
+    <div class="subscribe" aria-live="polite">
+      <form id="subscribe-form" method="POST" novalidate>
+        <input type="hidden" name="wpr_form_code" id="wpr_form_code" value="REPLACE_WITH_YOUR_SECRET">
+        <input id="email" name="wpr_mailchimp_email" type="email" placeholder="Enter your email address" required autocomplete="email" aria-label="Email address">
+        <button id="submit" type="submit">Notify Me</button>
+      </form>
+    </div>
+
+    <div class="msgs" role="status" aria-live="polite">
+      <div id="success" class="msg success">Thanks — you're on the list!</div>
+      <div id="error" class="msg error">Oops — something went wrong. Try again.</div>
+    </div>
+
+    <div class="footer">Est. 2025 • We respect your privacy — no spam, ever.</div>
+  </main>
+
+  <script>
+    // Replace with your Apps Script Web App URL (deployed as "Anyone, even anonymous")
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxW0j9TjM5hkYVeqVRTzGcMp_co5jFjPmsD7fSUQoWjRYu8BJZxE6pf9zC5YWVoFOpNWg/exec";
+
+    (function(){
+      const form = document.getElementById('subscribe-form');
+      const email = document.getElementById('email');
+      const btn = document.getElementById('submit');
+      const successEl = document.getElementById('success');
+      const errorEl = document.getElementById('error');
+      const hiddenToken = document.getElementById('wpr_form_code');
+
+      function show(el, text){
+        if(!el) return;
+        el.textContent = text || el.textContent;
+        el.style.display = 'block';
+      }
+      function hideAll(){
+        successEl.style.display = 'none';
+        errorEl.style.display = 'none';
+      }
+
+      function validateEmail(v){
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+      }
+
+      form.addEventListener('submit', async function(e){
+        e.preventDefault();
+        hideAll();
+
+        const val = (email.value || '').trim();
+        if(!val){
+          show(errorEl, 'Please enter your email.');
+          return;
+        }
+        if(!validateEmail(val)){
+          show(errorEl, 'Please enter a valid email address.');
+          return;
+        }
+        if(!SCRIPT_URL || SCRIPT_URL.indexOf('http')!==0){
+          show(errorEl, 'Integration not configured. Contact the site owner.');
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+
+        try{
+          const fd = new FormData();
+          fd.append('wpr_mailchimp_email', val);
+          if(hiddenToken && hiddenToken.value) fd.append('wpr_form_code', hiddenToken.value);
+
+          const resp = await fetch(SCRIPT_URL, {
+            method:'POST',
+            body: fd,
+            mode: 'cors',
+            credentials: 'omit'
+          });
+
+          let body = null;
+          try { body = await resp.json(); } catch(e){ /* ignore JSON parse errors */ }
+
+          if(resp.status === 200 || (body && body.status === 'success')){
+            show(successEl, 'Thanks — you\'re on the list!');
+            form.reset();
+          } else if(resp.status === 409 || (body && body.code === 409)){
+            show(errorEl, 'That email is already subscribed.');
+          } else if(resp.status === 401 || (body && body.code === 401)){
+            show(errorEl, 'Unauthorized submission. Check form secret.');
+          } else {
+            show(errorEl, (body && body.message) ? body.message : 'Subscription failed. Try again later.');
+            console.warn('Subscribe failed', resp.status, body);
+          }
+        } catch(err){
+          console.error('Network error', err);
+          show(errorEl, 'Network error. Please try again.');
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Notify Me';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
