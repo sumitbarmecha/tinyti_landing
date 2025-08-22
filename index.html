@@ -17,8 +17,9 @@
       --radius: 10px;
       --max-width: 720px;
     }
-    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;}
-    body {
+    html,body{  background: var(--bg);
+      color: var(--muted);height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;}
+    .main-screen {
       background: var(--bg);
       color: var(--muted);
       -webkit-font-smoothing:antialiased;
@@ -26,6 +27,7 @@
       align-items:center;
       justify-content:center;
       padding:0px 32px;
+      height: 100%;
     }
     .card {
       width:100%;
@@ -131,7 +133,8 @@
     }
     /* responsive: stack on small screens */
     @media (max-width:540px) {
-      .card{padding:28px}
+        .main-screen {height:fit-content;}
+      .card{padding:20px 0px}
       .subscribe { flex-direction:column; gap:10px; }
       form#subscribe-form { flex-direction:column; }
       button[type="submit"]{ width:100%; }
@@ -142,7 +145,7 @@
   </style>
 </head>
 <body>
-  <main class="card" role="main" aria-labelledby="coming-soon">
+  <section class="main-screen">   <div class="card" role="main" aria-labelledby="coming-soon">
     <div class="logo" aria-hidden="true">
       <img src="./6.png" alt="TinyTi Logo">
     </div>
@@ -167,7 +170,8 @@
     </div>
 
     <div class="footer">Est. 2025 • We respect your privacy — no spam, ever.</div>
-  </main>
+  </div> </section>
+
 
   <script>
     // Replace with your Apps Script Web App URL (deployed as "Anyone, even anonymous")
