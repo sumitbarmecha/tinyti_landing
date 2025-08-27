@@ -3,20 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>TinyTi — Coming Soon</title>
+  <title>TinyTí</title>
   <meta name="description" content="TinyTí crafts ultra-soft, sustainable kids’ clothing inspired by an elder sister’s care. Made with organic fabrics and natural dyes, our playful yet timeless designs wrap little ones in comfort, love, and conscious fashion..">
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #820405;
-      --accent: #e6cea2;
-      --muted: rgba(255,255,255,0.85);
+      --accent: #d2af5d;
+      --muted: #e6cea2;
       --input-bg: rgba(255,255,255,0.06);
       --glass: rgba(255,255,255,0.04);
       --radius: 10px;
       --max-width: 720px;
     }
+
     html,body{  background: var(--bg);
       color: var(--muted);height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;}
     .main-screen {
@@ -27,7 +28,11 @@
       align-items:center;
       justify-content:center;
       padding:0px 32px;
-      height: 100%;
+      height: 100vh;
+      max-height: 100vh;
+    }
+    #coming-soon{
+      color:#e6cea2;
     }
     .card {
       width:100%;
@@ -46,7 +51,16 @@
       justify-content:center;
       background: transparent;
     }
-    .logo img {
+    .text {
+      width:360px;
+      height:100px;
+      margin:22px auto 0px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: transparent;
+    }
+    .logo img ,.text img {
       max-width:100%;
       height:auto;
       display:block;
@@ -87,27 +101,27 @@
     input[type="email"] {
       min-width:0;
       padding:14px 16px;
-      border-radius: 4px;
+      border-radius: 10px;
       border: 1px solid rgba(255,255,255,0.08);
-      background: var(--input-bg);
+      background: #8a1a17;
       color: white;
       outline: none;
       font-size:15px;
     }
     input[type="email"]::placeholder { color: rgba(255,255,255,0.6); }
     button[type="submit"] {
-      padding:12px 18px;
-      border-radius:4px;
+       padding:14px 16px;
+      border-radius:10px;
       border: none;
       font-weight:600 !important;
       cursor:pointer;
-      background:var(--accent);
+      background:#d2af5d;
       color: var(--bg);
       min-width:120px;
       font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
     }
     button[disabled] { opacity:0.6; cursor:default; }
-    .msgs { margin-top:14px; min-height:24px;display: flex
+    .msgs { margin-top:14px; min-height:24px;display: none
 ;
     justify-content: center;
  }
@@ -131,7 +145,8 @@
     }
     /* responsive: stack on small screens */
     @media (max-width:540px) {
-        .main-screen {height:fit-content;}
+        .main-screen { height: 100vh;
+      max-height: 100vh;}
       .card{padding:20px 0px}
       .subscribe { flex-direction:column; gap:10px; }
       form#subscribe-form { flex-direction:column; }
@@ -145,20 +160,20 @@
 <body>
   <section class="main-screen">   <div class="card" role="main" aria-labelledby="coming-soon">
     <div class="logo" aria-hidden="true">
-      <img src="./6.png" alt="TinyTi Logo">
+      <img src="./logo/logo.png" alt="TinyTí Logo">
     </div>
 
-    <h1 id="coming-soon" aria-hidden="true">TinyTi — Coming Soon</h1>
+    <h1 id="coming-soon" aria-hidden="true">Coming Soon</h1>
 
     <p class="teaser">
-      TinyTi makes the small things that matter feel special. We're building something tiny, bold, and delightfully unexpected — early access, limited drops, and insider perks for subscribers.
+      TinyTí makes the small things that matter feel special. We're building something tiny, bold, and delightfully unexpected — early access, limited drops, and insider perks for subscribers.
     </p>
 
     <div class="subscribe" aria-live="polite">
       <form id="subscribe-form" method="POST" novalidate>
         <input type="hidden" name="wpr_form_code" id="wpr_form_code" value="REPLACE_WITH_YOUR_SECRET">
         <input id="email" name="wpr_mailchimp_email" type="email" placeholder="Enter your email address" required autocomplete="email" aria-label="Email address">
-        <button id="submit" type="submit">Notify Me</button>
+        <button id="submit" type="submit">🥰 Tell me first</button>
       </form>
     </div>
 
@@ -166,7 +181,9 @@
       <div id="success" class="msg success">Thanks — you're on the list!</div>
       <div id="error" class="msg error">Oops — something went wrong. Try again.</div>
     </div>
-
+ <div class="text" aria-hidden="true">
+      <img src="./text.png" alt="TinyTí Logo">
+    </div>
     <div class="footer">TinyTí ™ 2025 • We respect your privacy — no spam, ever.</div>
   </div> </section>
 
@@ -182,15 +199,18 @@
       const successEl = document.getElementById('success');
       const errorEl = document.getElementById('error');
       const hiddenToken = document.getElementById('wpr_form_code');
+      const msgsEl = document.querySelector('.msgs');
 
       function show(el, text){
         if(!el) return;
         el.textContent = text || el.textContent;
-        el.style.display = 'block';
+        el.style.display = 'flex';
+        if(msgsEl) msgsEl.style.display = 'flex';
       }
       function hideAll(){
         successEl.style.display = 'none';
         errorEl.style.display = 'none';
+        if(msgsEl) msgsEl.style.display = 'none';
       }
 
       function validateEmail(v){
