@@ -1,338 +1,435 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
 
-  <title>TinyTí</title>
-  <meta name="description" content="TinyTí crafts ultra-soft, sustainable kids’ clothing inspired by an elder sister’s care. Made with organic fabrics and natural dyes, our playful yet timeless designs wrap little ones in comfort, love, and conscious fashion..">
+    <title>TinyTí</title>
+    <meta
+      name="description"
+      content="TinyTí crafts ultra-soft, sustainable kids’ clothing inspired by an elder sister’s care. Made with organic fabrics and natural dyes, our playful yet timeless designs wrap little ones in comfort, love, and conscious fashion.."
+    />
 
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #820405;
-      --accent: #d2af5d;
-      --muted: #e6cea2;
-      --input-bg: rgba(255,255,255,0.06);
-      --glass: rgba(255,255,255,0.04);
-      --radius: 10px;
-      --max-width: 720px;
-    }
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #820405;
+        --accent: #d2af5d;
+        --muted: #e6cea2;
+        --input-bg: rgba(255, 255, 255, 0.06);
+        --glass: rgba(255, 255, 255, 0.04);
+        --radius: 10px;
+        --max-width: 720px;
+      }
 
-    html,body{  background: var(--bg);
-      color: var(--muted);height:100%;margin:0;font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;}
-    .main-screen {
-      background: var(--bg);
-      color: var(--muted);
-      -webkit-font-smoothing:antialiased;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:0px 32px;
-      height: 100vh;
-      max-height: 100vh;
-    }
-    #coming-soon{
-      color:#e6cea2;
-    }
-    .card {
-      width:100%;
-      max-width:var(--max-width);
-      text-align:center;
-      padding:42px;
-      box-sizing:border-box;
-      backdrop-filter: blur(6px);
-    }
-    .icon{
-      font-size: 30px;
-    }
-    .logo {
-      width:260px;
-      height:260px;
-      margin:0 auto 22px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: transparent;
-    }
-    .text {
-      width:360px;
-      height:100px;
-      margin:22px auto 0px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: transparent;
-    }
-    .logo img ,.text img {
-      max-width:100%;
-      height:auto;
-      display:block;
-    }
-    h1 {
-      margin:0;
-      font-family: 'Playfair Display', serif;
-      font-weight:700;
-      font-size:34px;
-      color: var(--accent);
-      letter-spacing:0.4px;
-    }
-    .teaser {
-      margin:14px 0 22px;
-      font-size:16px;
-      line-height:1.45;
-      color: var(--accent);
-        font-family: "DM Sans", sans-serif;
-      max-width:560px;
-      margin-left:auto;
-      margin-right:auto;
-      margin-top: 40px
-    }
-    /* Form */
-    .subscribe {
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:12px;
-      margin-top:10px;
-    }
-    form#subscribe-form {
-      display:flex;
-      gap:12px;
-      align-items:center;
-      justify-content:center;
-      width:100%;
-    }
-    input[type="email"],input[type="email"]:-webkit-autofill  {
-      min-width:0;
-      padding:15px 16px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: #8a1a17;
-      color: white;
-      outline: none;
-      font-size:15px;
-    }
-    input[type="email"]::placeholder { color:white; }
-    button[type="submit"] {
-       padding:4px 16px;
-      border-radius:10px;
-      border: none;
-      font-weight:600 !important;
-      cursor:pointer;
-      background:#d2af5d;
-      color: var(--bg);
-      min-width:120px;
-      font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
-      width: fit-content;
+      html,
+      body {
+        background: var(--bg);
+        color: var(--muted);
+        height: 100%;
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+      }
+      .main-screen {
+        background: var(--bg);
+        color: var(--muted);
+        -webkit-font-smoothing: antialiased;
         display: flex;
         align-items: center;
         justify-content: center;
-    
-    }
-    button[disabled] { opacity:0.6; cursor:default; }
-    .msgs { margin-top:14px; min-height:24px;display: none
-;
-    justify-content: center;
- }
-    .msg {
-      display:none;
-      padding:10px 14px;
-      border-radius:4px;
-      width: fit-content;
-      font-size:14px;
-    }
-    .msg.success {
-      display:none;
-      background: rgba(186,127,74,0.12);
-      color: var(--accent);
-    }@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
-    .footer { margin-top:22px; font-size:14px; color:var(--accent); }
-    .msg.error {
-      display:none;
-      width: fit-;
-      background: rgba(255,255,255,0.06);
-      color: var(--accent);
-    }
-    /* responsive: stack on small screens */
-    @media (max-width:540px) {
-      .teaser {margin-top:30px}
-        .main-screen { height: fit-content;max-height: fit-content;}
-      .card{padding:20px 0px}
-      .subscribe { flex-direction:column; gap:10px; }
-      form#subscribe-form { flex-direction:column; }
-      button[type="submit"]{ width:100%; }
-      input[type="email"]{ width:fit-content; }
-      .text{width:200px;height: fit-content;}.logo {width:160px;align-items: flex-end;}
-    .footer {  font-size:10px;}
+        padding: 0px 32px;
+        height: 100vh;
+        max-height: 100vh;
+      }
+      #coming-soon {
+        color: #e6cea2;
+      }
+      .card {
+        width: 100%;
+        max-width: var(--max-width);
+        text-align: center;
+        padding: 42px;
+        box-sizing: border-box;
+        backdrop-filter: blur(6px);
+      }
+      .icon {
+        font-size: 30px;
+      }
+      .logo {
+        width: 260px;
+        height: 260px;
+        margin: 0 auto 22px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+      }
+      .text {
+        width: 360px;
+        height: 100px;
+        margin: 22px auto 0px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+      }
+      .logo img,
+      .text img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+      h1 {
+        margin: 0;
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        font-size: 34px;
+        color: var(--accent);
+        letter-spacing: 0.4px;
+      }
+      .teaser {
+        margin: 14px 0 22px;
+        font-size: 16px;
+        line-height: 1.45;
+        color: var(--accent);
+        font-family: "DM Sans", sans-serif;
+        max-width: 560px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 40px;
+      }
+      /* Form */
+      .subscribe {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 10px;
+      }
+      form#subscribe-form {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+      input[type="email"],
+      input[type="email"]:-webkit-autofill {
+        min-width: 0;
+        padding: 15px 16px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: #8a1a17;
+        color: white;
+        outline: none;
+        font-size: 15px;
+      }
+      input[type="email"]::placeholder {
+        color: white;
+      }
+      button[type="submit"] {
+        padding: 4px 16px;
+        border-radius: 10px;
+        border: none;
+        font-weight: 600 !important;
+        cursor: pointer;
+        background: #d2af5d;
+        color: var(--bg);
+        min-width: 120px;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      button[disabled] {
+        opacity: 0.6;
+        cursor: default;
+      }
+      .msgs {
+        margin-top: 14px;
+        min-height: 24px;
+        display: none;
+        justify-content: center;
+      }
+      .msg {
+        display: none;
+        padding: 10px 14px;
+        border-radius: 4px;
+        width: fit-content;
+        font-size: 14px;
+      }
+      .msg.success {
+        display: none;
+        background: rgba(186, 127, 74, 0.12);
+        color: var(--accent);
+      }
+      @import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+      .footer {
+        margin-top: 22px;
+        font-size: 14px;
+        color: var(--accent);
+      }
+      .msg.error {
+        display: none;
+        width: fit-;
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--accent);
+      }
+      /* responsive: stack on small screens */
+      @media (max-width: 540px) {
+        .teaser {
+          margin-top: 30px;
+        }
+        .main-screen,
+        .card {
+          height: 100vh;
+          max-height: 100vh;
+        }
+        .card {
+          padding: 20px 0px;
+          justify-content: space-between;
+          display: flex;
+          flex-direction: column;
+        }
 
-    }
-    /* small footer */
-    
-  </style>
-</head>
-<body>
-  <section class="main-screen">   <div class="card" role="main" aria-labelledby="coming-soon">
-    <div class="logo" aria-hidden="true">
-      <img src="./logo/logo.png" alt="TinyTí Logo">
-    </div>
+        .subscribe {
+          flex-direction: column;
+          gap: 10px;
+        }
+        form#subscribe-form {
+          flex-direction: column;
+        }
+        button[type="submit"] {
+          width: 100%;
+        }
+        input[type="email"] {
+          width: fit-content;
+        }
+        .text {
+          width: 200px;
+          height: fit-content;
+        }
+        .logo {
+          width: 160px;
+          margin-top: 30px;
+          height: fit-content;
+          align-items: flex-end;
+        }
+        .footer {
+          font-size: 10px;
+        }
+      }
+      /* small footer */
+    </style>
+  </head>
+  <body>
+    <section class="main-screen">
+      <div class="card" role="main" aria-labelledby="coming-soon">
+        <div class="logo" aria-hidden="true">
+          <img src="./logo/logo.png" alt="TinyTí Logo" />
+        </div>
 
-    <!-- <h1 id="coming-soon" aria-hidden="true">Coming Soon</h1> -->
+        <!-- <h1 id="coming-soon" aria-hidden="true">Coming Soon</h1> -->
 
-    <p class="teaser">
-Something timeless is coming...<br>
-Crafted in the softest threads, made to cherish every moment. Be the first to know ;)
-    </p>
+        <p class="teaser">
+          Something timeless is coming...<br />
+          Crafted in the softest threads, made to cherish every moment. Be the
+          first to know ;)
+        </p>
 
-    <div class="subscribe" aria-live="polite">
-      <form id="subscribe-form" method="POST" novalidate>
-        <input type="hidden" name="wpr_form_code" id="wpr_form_code" value="REPLACE_WITH_YOUR_SECRET">
-        <input id="email" name="wpr_mailchimp_email" type="email" placeholder="💌 Enter your email address" required autocomplete="email" aria-label="Email address">
-        <!-- <button id="submit" type="submit"><span class="icon">💌</span>  the list</button> -->
-      </form>
-    </div>
+        <div class="subscribe" aria-live="polite">
+          <form id="subscribe-form" method="POST" novalidate>
+            <input
+              type="hidden"
+              name="wpr_form_code"
+              id="wpr_form_code"
+              value="REPLACE_WITH_YOUR_SECRET"
+            />
+            <input
+              id="email"
+              name="wpr_mailchimp_email"
+              type="email"
+              placeholder="💌 Enter your email address"
+              required
+              autocomplete="email"
+              aria-label="Email address"
+            />
+            <!-- <button id="submit" type="submit"><span class="icon">💌</span>  the list</button> -->
+          </form>
+        </div>
 
-    <div class="msgs" role="status" aria-live="polite">
-      <div id="success" class="msg success">Thanks — you're on the list!</div>
-      <div id="error" class="msg error">Oops — something went wrong. Try again.</div>
-    </div>
- <div class="text" aria-hidden="true">
-      <img src="./text.png" alt="TinyTí Logo">
-    </div>
-    <div class="footer">TinyTí ™ 2025 • We respect your privacy — no spam, ever.</div>
-  </div> </section>
+        <div class="msgs" role="status" aria-live="polite">
+          <div id="success" class="msg success">
+            Thanks — you're on the list!
+          </div>
+          <div id="error" class="msg error">
+            Oops — something went wrong. Try again.
+          </div>
+        </div>
+        <div class="text" aria-hidden="true">
+          <img src="./text.png" alt="TinyTí Logo" />
+        </div>
+        <div class="footer">
+          TinyTí ™ 2025 • We respect your privacy — no spam, ever.
+        </div>
+      </div>
+    </section>
 
+    <script>
+      // Replace with your Apps Script Web App URL (deployed as "Anyone, even anonymous")
+      const SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbxW0j9TjM5hkYVeqVRTzGcMp_co5jFjPmsD7fSUQoWjRYu8BJZxE6pf9zC5YWVoFOpNWg/exec";
 
- <script>
-  // Replace with your Apps Script Web App URL (deployed as "Anyone, even anonymous")
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxW0j9TjM5hkYVeqVRTzGcMp_co5jFjPmsD7fSUQoWjRYu8BJZxE6pf9zC5YWVoFOpNWg/exec";
+      (function () {
+        const form = document.getElementById("subscribe-form");
+        const email = document.getElementById("email");
+        const successEl = document.getElementById("success");
+        const errorEl = document.getElementById("error");
+        const hiddenToken = document.getElementById("wpr_form_code");
+        const msgsEl = document.querySelector(".msgs");
 
-  (function(){
-    const form = document.getElementById('subscribe-form');
-    const email = document.getElementById('email');
-    const successEl = document.getElementById('success');
-    const errorEl = document.getElementById('error');
-    const hiddenToken = document.getElementById('wpr_form_code');
-    const msgsEl = document.querySelector('.msgs');
+        let isSubmitting = false;
+        let debounceTimer = null;
+        let lastAutoAttempt = "";
+        const originalPlaceholder =
+          email.placeholder || "Enter your email address";
 
-    let isSubmitting = false;
-    let debounceTimer = null;
-    let lastAutoAttempt = '';
-    const originalPlaceholder = email.placeholder || 'Enter your email address';
+        function show(el, text) {
+          if (!el) return;
+          el.textContent = text || el.textContent;
+          el.style.display = "flex";
+          if (msgsEl) msgsEl.style.display = "flex";
+        }
+        function hideAll() {
+          if (successEl) successEl.style.display = "none";
+          if (errorEl) errorEl.style.display = "none";
+          if (msgsEl) msgsEl.style.display = "none";
+        }
 
-    function show(el, text){
-      if(!el) return;
-      el.textContent = text || el.textContent;
-      el.style.display = 'flex';
-      if(msgsEl) msgsEl.style.display = 'flex';
-    }
-    function hideAll(){
-      if(successEl) successEl.style.display = 'none';
-      if(errorEl) errorEl.style.display = 'none';
-      if(msgsEl) msgsEl.style.display = 'none';
-    }
+        function validateEmail(v) {
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+        }
 
-    function validateEmail(v){
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-    }
+        async function sendSubscription(val) {
+          if (isSubmitting) return;
+          isSubmitting = true;
 
-    async function sendSubscription(val){
-      if(isSubmitting) return;
-      isSubmitting = true;
+          const prevValue = email.value;
+          // show "Sending..." as placeholder — clear field so placeholder is visible
+          email.value = "";
+          email.placeholder = "Sending...";
+          email.disabled = true;
 
-      const prevValue = email.value;
-      // show "Sending..." as placeholder — clear field so placeholder is visible
-      email.value = '';
-      email.placeholder = 'Sending...';
-      email.disabled = true;
+          try {
+            const fd = new FormData();
+            fd.append("wpr_mailchimp_email", val);
+            if (hiddenToken && hiddenToken.value)
+              fd.append("wpr_form_code", hiddenToken.value);
 
-      try {
-        const fd = new FormData();
-        fd.append('wpr_mailchimp_email', val);
-        if(hiddenToken && hiddenToken.value) fd.append('wpr_form_code', hiddenToken.value);
+            const resp = await fetch(SCRIPT_URL, {
+              method: "POST",
+              body: fd,
+              mode: "cors",
+              credentials: "omit",
+            });
 
-        const resp = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          body: fd,
-          mode: 'cors',
-          credentials: 'omit'
+            let body = null;
+            try {
+              body = await resp.json();
+            } catch (e) {
+              /* ignore parse errors */
+            }
+
+            if (resp.status === 200 || (body && body.status === "success")) {
+              show(successEl, "Thanks — you're on the list!");
+              form.reset();
+            } else if (resp.status === 409 || (body && body.code === 409)) {
+              show(errorEl, "That email is already subscribed.");
+              email.value = prevValue;
+            } else if (resp.status === 401 || (body && body.code === 401)) {
+              show(errorEl, "Unauthorized submission. Check form secret.");
+              email.value = prevValue;
+            } else {
+              show(
+                errorEl,
+                body && body.message
+                  ? body.message
+                  : "Subscription failed. Try again later."
+              );
+              email.value = prevValue;
+              console.warn("Subscribe failed", resp.status, body);
+            }
+          } catch (err) {
+            console.error("Network error", err);
+            show(errorEl, "Network error. Please try again.");
+            email.value = prevValue;
+          } finally {
+            isSubmitting = false;
+            email.disabled = false;
+            email.placeholder = originalPlaceholder;
+          }
+        }
+
+        // Auto-submit helpers
+        function autoTrySubmit() {
+          const val = (email.value || "").trim();
+          if (!val || !validateEmail(val)) return;
+          if (val === lastAutoAttempt) return; // avoid duplicate automatic sends
+          lastAutoAttempt = val;
+          sendSubscription(val);
+        }
+
+        function onInput() {
+          hideAll();
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(autoTrySubmit, 700); // 700ms debounce
+        }
+
+        function onBlur() {
+          clearTimeout(debounceTimer);
+          autoTrySubmit();
+        }
+
+        // Keep Enter/manual submit working even without a button
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          hideAll();
+
+          const val = (email.value || "").trim();
+          if (!val) {
+            show(errorEl, "Please enter your email.");
+            return;
+          }
+          if (!validateEmail(val)) {
+            show(errorEl, "Please enter a valid email address.");
+            return;
+          }
+          if (!SCRIPT_URL || SCRIPT_URL.indexOf("http") !== 0) {
+            show(
+              errorEl,
+              "Integration not configured. Contact the site owner."
+            );
+            return;
+          }
+
+          sendSubscription(val);
         });
 
-        let body = null;
-        try { body = await resp.json(); } catch(e){ /* ignore parse errors */ }
-
-        if(resp.status === 200 || (body && body.status === 'success')){
-          show(successEl, "Thanks — you're on the list!");
-          form.reset();
-        } else if(resp.status === 409 || (body && body.code === 409)){
-          show(errorEl, 'That email is already subscribed.');
-          email.value = prevValue;
-        } else if(resp.status === 401 || (body && body.code === 401)){
-          show(errorEl, 'Unauthorized submission. Check form secret.');
-          email.value = prevValue;
-        } else {
-          show(errorEl, (body && body.message) ? body.message : 'Subscription failed. Try again later.');
-          email.value = prevValue;
-          console.warn('Subscribe failed', resp.status, body);
-        }
-      } catch(err){
-        console.error('Network error', err);
-        show(errorEl, 'Network error. Please try again.');
-        email.value = prevValue;
-      } finally {
-        isSubmitting = false;
-        email.disabled = false;
-        email.placeholder = originalPlaceholder;
-      }
-    }
-
-    // Auto-submit helpers
-    function autoTrySubmit(){
-      const val = (email.value || '').trim();
-      if(!val || !validateEmail(val)) return;
-      if(val === lastAutoAttempt) return; // avoid duplicate automatic sends
-      lastAutoAttempt = val;
-      sendSubscription(val);
-    }
-
-    function onInput(){
-      hideAll();
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(autoTrySubmit, 700); // 700ms debounce
-    }
-
-    function onBlur(){
-      clearTimeout(debounceTimer);
-      autoTrySubmit();
-    }
-
-    // Keep Enter/manual submit working even without a button
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      hideAll();
-
-      const val = (email.value || '').trim();
-      if(!val){
-        show(errorEl, 'Please enter your email.');
-        return;
-      }
-      if(!validateEmail(val)){
-        show(errorEl, 'Please enter a valid email address.');
-        return;
-      }
-      if(!SCRIPT_URL || SCRIPT_URL.indexOf('http') !== 0){
-        show(errorEl, 'Integration not configured. Contact the site owner.');
-        return;
-      }
-
-      sendSubscription(val);
-    });
-
-    email.addEventListener('input', onInput);
-    email.addEventListener('blur', onBlur);
-    email.addEventListener('paste', function(){ setTimeout(autoTrySubmit, 200); });
-  })();
-</script>
-
-</body>
+        email.addEventListener("input", onInput);
+        email.addEventListener("blur", onBlur);
+        email.addEventListener("paste", function () {
+          setTimeout(autoTrySubmit, 200);
+        });
+      })();
+    </script>
+  </body>
 </html>
