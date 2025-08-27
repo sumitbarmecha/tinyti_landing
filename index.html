@@ -42,6 +42,9 @@
       box-sizing:border-box;
       backdrop-filter: blur(6px);
     }
+    .icon{
+      font-size: 30px;
+    }
     .logo {
       width:260px;
       height:260px;
@@ -82,6 +85,7 @@
       max-width:560px;
       margin-left:auto;
       margin-right:auto;
+      margin-top: 40px
     }
     /* Form */
     .subscribe {
@@ -98,9 +102,9 @@
       justify-content:center;
       width:100%;
     }
-    input[type="email"] {
+    input[type="email"],input[type="email"]:-webkit-autofill  {
       min-width:0;
-      padding:14px 16px;
+      padding:15px 16px;
       border-radius: 10px;
       border: 1px solid rgba(255,255,255,0.08);
       background: #8a1a17;
@@ -108,9 +112,9 @@
       outline: none;
       font-size:15px;
     }
-    input[type="email"]::placeholder { color: rgba(255,255,255,0.6); }
+    input[type="email"]::placeholder { color:white; }
     button[type="submit"] {
-       padding:14px 16px;
+       padding:4px 16px;
       border-radius:10px;
       border: none;
       font-weight:600 !important;
@@ -119,6 +123,11 @@
       color: var(--bg);
       min-width:120px;
       font-family:Inter,system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial;
+      width: fit-content;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    
     }
     button[disabled] { opacity:0.6; cursor:default; }
     .msgs { margin-top:14px; min-height:24px;display: none
@@ -145,12 +154,14 @@
     }
     /* responsive: stack on small screens */
     @media (max-width:540px) {
+      .teaser {margin-top:30px}
         .main-screen { height: fit-content;max-height: fit-content;}
       .card{padding:20px 0px}
       .subscribe { flex-direction:column; gap:10px; }
       form#subscribe-form { flex-direction:column; }
       button[type="submit"]{ width:100%; }
       input[type="email"]{ width:100%; }
+      .text {width:fit-content}
     }
     /* small footer */
     .footer { margin-top:22px; font-size:14px; color:var(--accent); }
@@ -162,17 +173,18 @@
       <img src="./logo/logo.png" alt="TinyTí Logo">
     </div>
 
-    <h1 id="coming-soon" aria-hidden="true">Coming Soon</h1>
+    <!-- <h1 id="coming-soon" aria-hidden="true">Coming Soon</h1> -->
 
     <p class="teaser">
-      TinyTí makes the small things that matter feel special. We're building something tiny, bold, and delightfully unexpected — early access, limited drops, and insider perks for subscribers.
+Something timeless is in the works… 🕊️⏳<br>
+Launching soon, in the softest threads imaginable. Be the first to know ;)
     </p>
 
     <div class="subscribe" aria-live="polite">
       <form id="subscribe-form" method="POST" novalidate>
         <input type="hidden" name="wpr_form_code" id="wpr_form_code" value="REPLACE_WITH_YOUR_SECRET">
-        <input id="email" name="wpr_mailchimp_email" type="email" placeholder="Enter your email address" required autocomplete="email" aria-label="Email address">
-        <button id="submit" type="submit">🥰 Tell me first</button>
+        <input id="email" name="wpr_mailchimp_email" type="email" placeholder="💌 Enter your email address" required autocomplete="email" aria-label="Email address">
+        <!-- <button id="submit" type="submit"><span class="icon">💌</span>  the list</button> -->
       </form>
     </div>
 
@@ -187,91 +199,136 @@
   </div> </section>
 
 
-  <script>
-    // Replace with your Apps Script Web App URL (deployed as "Anyone, even anonymous")
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxW0j9TjM5hkYVeqVRTzGcMp_co5jFjPmsD7fSUQoWjRYu8BJZxE6pf9zC5YWVoFOpNWg/exec";
+ <script>
+  // Replace with your Apps Script Web App URL (deployed as "Anyone, even anonymous")
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxW0j9TjM5hkYVeqVRTzGcMp_co5jFjPmsD7fSUQoWjRYu8BJZxE6pf9zC5YWVoFOpNWg/exec";
 
-    (function(){
-      const form = document.getElementById('subscribe-form');
-      const email = document.getElementById('email');
-      const btn = document.getElementById('submit');
-      const successEl = document.getElementById('success');
-      const errorEl = document.getElementById('error');
-      const hiddenToken = document.getElementById('wpr_form_code');
-      const msgsEl = document.querySelector('.msgs');
+  (function(){
+    const form = document.getElementById('subscribe-form');
+    const email = document.getElementById('email');
+    const successEl = document.getElementById('success');
+    const errorEl = document.getElementById('error');
+    const hiddenToken = document.getElementById('wpr_form_code');
+    const msgsEl = document.querySelector('.msgs');
 
-      function show(el, text){
-        if(!el) return;
-        el.textContent = text || el.textContent;
-        el.style.display = 'flex';
-        if(msgsEl) msgsEl.style.display = 'flex';
+    let isSubmitting = false;
+    let debounceTimer = null;
+    let lastAutoAttempt = '';
+    const originalPlaceholder = email.placeholder || 'Enter your email address';
+
+    function show(el, text){
+      if(!el) return;
+      el.textContent = text || el.textContent;
+      el.style.display = 'flex';
+      if(msgsEl) msgsEl.style.display = 'flex';
+    }
+    function hideAll(){
+      if(successEl) successEl.style.display = 'none';
+      if(errorEl) errorEl.style.display = 'none';
+      if(msgsEl) msgsEl.style.display = 'none';
+    }
+
+    function validateEmail(v){
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    }
+
+    async function sendSubscription(val){
+      if(isSubmitting) return;
+      isSubmitting = true;
+
+      const prevValue = email.value;
+      // show "Sending..." as placeholder — clear field so placeholder is visible
+      email.value = '';
+      email.placeholder = 'Sending...';
+      email.disabled = true;
+
+      try {
+        const fd = new FormData();
+        fd.append('wpr_mailchimp_email', val);
+        if(hiddenToken && hiddenToken.value) fd.append('wpr_form_code', hiddenToken.value);
+
+        const resp = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: fd,
+          mode: 'cors',
+          credentials: 'omit'
+        });
+
+        let body = null;
+        try { body = await resp.json(); } catch(e){ /* ignore parse errors */ }
+
+        if(resp.status === 200 || (body && body.status === 'success')){
+          show(successEl, "Thanks — you're on the list!");
+          form.reset();
+        } else if(resp.status === 409 || (body && body.code === 409)){
+          show(errorEl, 'That email is already subscribed.');
+          email.value = prevValue;
+        } else if(resp.status === 401 || (body && body.code === 401)){
+          show(errorEl, 'Unauthorized submission. Check form secret.');
+          email.value = prevValue;
+        } else {
+          show(errorEl, (body && body.message) ? body.message : 'Subscription failed. Try again later.');
+          email.value = prevValue;
+          console.warn('Subscribe failed', resp.status, body);
+        }
+      } catch(err){
+        console.error('Network error', err);
+        show(errorEl, 'Network error. Please try again.');
+        email.value = prevValue;
+      } finally {
+        isSubmitting = false;
+        email.disabled = false;
+        email.placeholder = originalPlaceholder;
       }
-      function hideAll(){
-        successEl.style.display = 'none';
-        errorEl.style.display = 'none';
-        if(msgsEl) msgsEl.style.display = 'none';
+    }
+
+    // Auto-submit helpers
+    function autoTrySubmit(){
+      const val = (email.value || '').trim();
+      if(!val || !validateEmail(val)) return;
+      if(val === lastAutoAttempt) return; // avoid duplicate automatic sends
+      lastAutoAttempt = val;
+      sendSubscription(val);
+    }
+
+    function onInput(){
+      hideAll();
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(autoTrySubmit, 700); // 700ms debounce
+    }
+
+    function onBlur(){
+      clearTimeout(debounceTimer);
+      autoTrySubmit();
+    }
+
+    // Keep Enter/manual submit working even without a button
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      hideAll();
+
+      const val = (email.value || '').trim();
+      if(!val){
+        show(errorEl, 'Please enter your email.');
+        return;
+      }
+      if(!validateEmail(val)){
+        show(errorEl, 'Please enter a valid email address.');
+        return;
+      }
+      if(!SCRIPT_URL || SCRIPT_URL.indexOf('http') !== 0){
+        show(errorEl, 'Integration not configured. Contact the site owner.');
+        return;
       }
 
-      function validateEmail(v){
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-      }
+      sendSubscription(val);
+    });
 
-      form.addEventListener('submit', async function(e){
-        e.preventDefault();
-        hideAll();
+    email.addEventListener('input', onInput);
+    email.addEventListener('blur', onBlur);
+    email.addEventListener('paste', function(){ setTimeout(autoTrySubmit, 200); });
+  })();
+</script>
 
-        const val = (email.value || '').trim();
-        if(!val){
-          show(errorEl, 'Please enter your email.');
-          return;
-        }
-        if(!validateEmail(val)){
-          show(errorEl, 'Please enter a valid email address.');
-          return;
-        }
-        if(!SCRIPT_URL || SCRIPT_URL.indexOf('http')!==0){
-          show(errorEl, 'Integration not configured. Contact the site owner.');
-          return;
-        }
-
-        btn.disabled = true;
-        btn.textContent = 'Sending...';
-
-        try{
-          const fd = new FormData();
-          fd.append('wpr_mailchimp_email', val);
-          if(hiddenToken && hiddenToken.value) fd.append('wpr_form_code', hiddenToken.value);
-
-          const resp = await fetch(SCRIPT_URL, {
-            method:'POST',
-            body: fd,
-            mode: 'cors',
-            credentials: 'omit'
-          });
-
-          let body = null;
-          try { body = await resp.json(); } catch(e){ /* ignore JSON parse errors */ }
-
-          if(resp.status === 200 || (body && body.status === 'success')){
-            show(successEl, 'Thanks — you\'re on the list!');
-            form.reset();
-          } else if(resp.status === 409 || (body && body.code === 409)){
-            show(errorEl, 'That email is already subscribed.');
-          } else if(resp.status === 401 || (body && body.code === 401)){
-            show(errorEl, 'Unauthorized submission. Check form secret.');
-          } else {
-            show(errorEl, (body && body.message) ? body.message : 'Subscription failed. Try again later.');
-            console.warn('Subscribe failed', resp.status, body);
-          }
-        } catch(err){
-          console.error('Network error', err);
-          show(errorEl, 'Network error. Please try again.');
-        } finally {
-          btn.disabled = false;
-          btn.textContent = 'Notify Me';
-        }
-      });
-    })();
-  </script>
 </body>
 </html>
